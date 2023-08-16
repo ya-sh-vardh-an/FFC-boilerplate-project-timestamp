@@ -26,7 +26,7 @@ app.get("/api/hello", function (req, res) {
 
 // for the 2015-12-25 api endpoint...
 app.get("/api/2015-12-25", function (req, res) {
-  res.json({"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"});
+  res.sendFile(__dirname + '/views/api/2015-12-25.json');
 });
 
 // for the api/1451001600000 endpoint...
