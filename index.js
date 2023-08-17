@@ -24,9 +24,16 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+const ifInvalidDate = (date) => { date === 'Invalid Date'}
 // for the 2015-12-25 api endpoint...
-app.get("/api/2015-12-25", function (req, res) {
-  res.sendFile(__dirname + '/views/api/2015-12-25.json');
+app.get("/api/:date", function (req, res) {
+
+  const date = new Date(req.params.date)
+  if (ifInvalidDate(date)) {
+    res.json({"Invalid Date"})
+  } else {
+    res.json({"unix": date.getTime(), "utc": date.toUTCString()})
+  }
 });
 
 // for the api/1451001600000 endpoint...
