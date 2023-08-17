@@ -24,13 +24,13 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-const ifInvalidDate = (date) => { date === 'Invalid Date'}
+const ifInvalidDate = (date) => { return date === 'Invalid Date'}
 // for the 2015-12-25 api endpoint...
 app.get("/api/:date", function (req, res) {
 
   const date = new Date(req.params.date)
   if (ifInvalidDate(date)) {
-    res.json({"Invalid Date"})
+    res.json("Invalid Date")
   } else {
     res.json({"unix": date.getTime(), "utc": date.toUTCString()})
   }
