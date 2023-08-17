@@ -24,21 +24,28 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-const ifInvalidDate = (date) => { return date === 'Invalid Date'}
+const ifInvalidDate = (date) => { return date.toUTCString() === 'Invalid Date'}
 // for the 2015-12-25 api endpoint...
 app.get("/api/:date", function (req, res) {
 
-  const date = new Date(req.params.date)
+  let date = new Date(req.params.date);
+
   if (ifInvalidDate(date)) {
-    res.json("Invalid Date")
-  } else {
-    res.json({"unix": date.getTime(), "utc": date.toUTCString()})
+    date = new Date(+req.params.date);
   }
+  if (ifInvalidDate(date)) {
+    res.json({ error: 'Invalid Date' });
+  }
+  
+  res.json({"unix": date.getTime(), "utc": date.toUTCString()})
 });
 
 // for the api/1451001600000 endpoint...
-app.get("/api/1451001600000", function (req, res) {
-  res.json({"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"});
+app.get("/api/", function (req, res) {
+  res.json({
+    "unix": new Date().getTime(),
+    "utc": new Date().toUTCString()
+  });
 });
 
 // listen for requests :)
